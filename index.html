@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PassAudit — Password Strength Analyzer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Background grid effect -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <div class="page-wrapper">
+
+    <!-- ===== HEADER ===== -->
+    <header class="site-header">
+      <div class="logo">
+        <span class="logo-icon" aria-hidden="true">⬡</span>
+        <span class="logo-text">PassAudit</span>
+      </div>
+      <p class="tagline">Real-time password security analysis</p>
+    </header>
+
+    <!-- ===== MAIN CARD ===== -->
+    <main class="main-card" role="main">
+
+      <!-- Card header -->
+      <div class="card-header">
+        <h1 class="card-title">Analyze Your Password</h1>
+        <p class="card-subtitle">Enter a password below to instantly evaluate its strength, detect vulnerabilities, and get actionable feedback.</p>
+      </div>
+
+      <!-- ===== INPUT SECTION ===== -->
+      <section class="input-section" aria-label="Password input">
+        <div class="input-wrapper">
+          <label for="password-input" class="input-label">Password</label>
+          <div class="input-row">
+            <input
+              type="password"
+              id="password-input"
+              class="password-input"
+              placeholder="Type your password here…"
+              autocomplete="new-password"
+              spellcheck="false"
+              aria-describedby="strength-label"
+            />
+            <button
+              class="toggle-btn"
+              id="toggle-visibility"
+              aria-label="Show password"
+              title="Toggle password visibility"
+              type="button"
+            >
+              <svg class="eye-icon eye-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <svg class="eye-icon eye-hide hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                <line x1="1" y1="1" x2="23" y2="23"/>
+              </svg>
+            </button>
+            <button
+              class="generate-btn"
+              id="generate-btn"
+              aria-label="Generate strong password"
+              title="Generate a strong password"
+              type="button"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <polyline points="1 4 1 10 7 10"/>
+                <path d="M3.51 15a9 9 0 1 0 .49-3.37"/>
+              </svg>
+              Generate
+            </button>
+          </div>
+        </div>
+
+        <!-- ===== STRENGTH METER ===== -->
+        <div class="strength-meter" id="strength-meter" aria-live="polite">
+          <!-- Default / empty state -->
+          <div class="meter-empty-state" id="meter-empty">
+            <span class="empty-icon" aria-hidden="true">🔒</span>
+            <span>Start typing to analyze your password</span>
+          </div>
+
+          <!-- Active state (hidden until user types) -->
+          <div class="meter-active hidden" id="meter-active">
+            <div class="meter-top-row">
+              <div class="score-display">
+                <span class="score-number" id="score-number">0</span>
+                <span class="score-max">/100</span>
+              </div>
+              <div class="label-display">
+                <span class="strength-dot" id="strength-dot" aria-hidden="true"></span>
+                <span class="strength-label" id="strength-label">—</span>
+              </div>
+            </div>
+
+            <!-- Progress bar -->
+            <div class="progress-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progress-track">
+              <div class="progress-bar" id="progress-bar"></div>
+              <div class="progress-segments" aria-hidden="true">
+                <div class="seg"></div>
+                <div class="seg"></div>
+                <div class="seg"></div>
+                <div class="seg"></div>
+              </div>
+            </div>
+
+            <!-- Crack time estimate -->
+            <div class="crack-time">
+              <span class="crack-label">Estimated crack time:</span>
+              <span class="crack-value" id="crack-time">—</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CHECKLIST SECTION ===== -->
+      <section class="checklist-section" aria-label="Password rules checklist">
+        <h2 class="section-title">Security Checks</h2>
+        <ul class="checklist" id="checklist" role="list">
+          <li class="check-item" id="check-length" data-check="length">
+            <span class="check-icon" aria-hidden="true"></span>
+            <span class="check-text">Minimum 8 characters</span>
+          </li>
+          <li class="check-item" id="check-length-good" data-check="length-good">
+            <span class="check-icon" aria-hidden="true"></span>
+            <span class="check-text">12+ characters (recommended)</span>
+          </li>
+          <li class="check-item" id="check-upper" data-check="upper">
+            <span class="check-icon" aria-hidden="true"></span>
+            <span class="check-text">Uppercase letters (A–Z)</span>
+          </li>
+          <li class="check-item" id="check-lower" data-check="lower">
+            <span class="check-icon" aria-hidden="true"></span>
+            <span class="check-text">Lowercase letters (a–z)</span>
+          </li>
+          <li class="check-item" id="check-number" data-check="number">
+            <span class="check-icon" aria-hidden="true"></span>
+            <span class="check-text">Numbers (0–9)</span>
+          </li>
+          <li class="check-item" id="check-special" data-check="special">
+            <span class="check-icon" aria-hidden="true"></span>
+            <span class="check-text">Special characters (!@#$…)</span>
+          </li>
+          <li class="check-item" id="check-no-repeat" data-check="no-repeat">
+            <span class="check-icon" aria-hidden="true"></span>
+            <span class="check-text">No excessive repeated characters</span>
+          </li>
+          <li class="check-item" id="check-no-common" data-check="no-common">
+            <span class="check-icon" aria-hidden="true"></span>
+            <span class="check-text">Not a common password</span>
+          </li>
+          <li class="check-item" id="check-no-sequential" data-check="no-sequential">
+            <span class="check-icon" aria-hidden="true"></span>
+            <span class="check-text">No sequential patterns (1234, abcd…)</span>
+          </li>
+          <li class="check-item" id="check-no-keyboard" data-check="no-keyboard">
+            <span class="check-icon" aria-hidden="true"></span>
+            <span class="check-text">No keyboard patterns (qwerty, asdf…)</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- ===== FEEDBACK SECTION ===== -->
+      <section class="feedback-section" id="feedback-section" aria-label="Improvement feedback" aria-live="polite">
+        <h2 class="section-title">Feedback &amp; Suggestions</h2>
+        <div class="feedback-empty" id="feedback-empty">
+          <p>Your personalized feedback will appear here as you type.</p>
+        </div>
+        <ul class="feedback-list hidden" id="feedback-list" role="list"></ul>
+      </section>
+
+    </main>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="how-it-works" aria-label="How it works">
+      <h2 class="section-heading">How PassAudit Works</h2>
+      <div class="how-grid">
+        <div class="how-card">
+          <div class="how-num" aria-hidden="true">01</div>
+          <h3>Pattern Detection</h3>
+          <p>Identifies sequential runs (1234, abcd), keyboard rows (qwerty), and repeated characters that attackers exploit first.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-num" aria-hidden="true">02</div>
+          <h3>Common Password Check</h3>
+          <p>Checks against hundreds of the most frequently used passwords so you know instantly if yours is on the list.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-num" aria-hidden="true">03</div>
+          <h3>Entropy Scoring</h3>
+          <p>Calculates a composite score based on character set diversity, length bonuses, and active penalty deductions.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-num" aria-hidden="true">04</div>
+          <h3>Crack Time Estimate</h3>
+          <p>Estimates how long a modern offline brute-force attack would take, giving you an intuitive sense of real-world strength.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TIPS SECTION ===== -->
+    <section class="tips-section" aria-label="Password tips">
+      <h2 class="section-heading">Password Best Practices</h2>
+      <div class="tips-grid">
+        <div class="tip-card">
+          <span class="tip-icon" aria-hidden="true">📝</span>
+          <h3>Use Passphrases</h3>
+          <p>String 4–5 random words together. <em>"correct-horse-battery-staple"</em> is both memorable and strong.</p>
+        </div>
+        <div class="tip-card">
+          <span class="tip-icon" aria-hidden="true">🔁</span>
+          <h3>Never Reuse Passwords</h3>
+          <p>One breach can expose every account you have. Each service deserves its own unique password.</p>
+        </div>
+        <div class="tip-card">
+          <span class="tip-icon" aria-hidden="true">🙅</span>
+          <h3>Avoid Personal Info</h3>
+          <p>Names, birthdays, and pet names are guessed first. Keep your passwords free of any personal identifiers.</p>
+        </div>
+        <div class="tip-card">
+          <span class="tip-icon" aria-hidden="true">🗄️</span>
+          <h3>Use a Password Manager</h3>
+          <p>Tools like Bitwarden, 1Password, or KeePass generate and store strong unique passwords for you automatically.</p>
+        </div>
+        <div class="tip-card">
+          <span class="tip-icon" aria-hidden="true">🔐</span>
+          <h3>Enable 2FA Everywhere</h3>
+          <p>Two-factor authentication is your last line of defense even if a password is compromised.</p>
+        </div>
+        <div class="tip-card">
+          <span class="tip-icon" aria-hidden="true">🔄</span>
+          <h3>Rotate Sensitive Passwords</h3>
+          <p>Change passwords for critical accounts (email, banking) every 6–12 months, especially after any data breach.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+      <p class="footer-note">
+        <span aria-hidden="true">⬡</span> PassAudit — All analysis runs <strong>100% client-side</strong>. Your password never leaves your browser.
+      </p>
+      <p class="footer-sub">Built as a portfolio project · HTML · CSS · JavaScript</p>
+    </footer>
+
+  </div><!-- /.page-wrapper -->
+
+  <script src="script.js"></script>
+</body>
+</html>
