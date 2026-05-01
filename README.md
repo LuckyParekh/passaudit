@@ -43,7 +43,7 @@ PassAudit evaluates the security of a password against a range of realistic crit
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 | Layer | Technology |
 |---|---|
