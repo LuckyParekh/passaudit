@@ -4,7 +4,7 @@ A professional, portfolio-ready **password strength analyzer** built with vanill
 
 ---
 
-## 📸 Overview
+## Overview
 
 PassAudit evaluates the security of a password against a range of realistic criteria, provides an actionable feedback report, and estimates how long a modern brute-force attack would take to crack it. The tool is designed with a refined dark terminal aesthetic and smooth micro-animations to feel genuinely production-quality.
 
@@ -53,32 +53,6 @@ PassAudit evaluates the security of a password against a range of realistic crit
 | Fonts | JetBrains Mono + Syne (Google Fonts) |
 
 No frameworks. No dependencies. No build step.
-
----
-
-##  How to Run Locally
-
-1. **Clone or download** the repository
-   ```bash
-   git clone https://github.com/your-username/passaudit.git
-   cd passaudit
-   ```
-
-2. **Open `index.html`** directly in your browser
-   ```bash
-   # macOS
-   open index.html
-
-   # Linux
-   xdg-open index.html
-
-   # Windows
-   start index.html
-   ```
-
-   Or drag `index.html` into any modern browser window.
-
->  The Google Fonts import requires an internet connection on first load. After that, fonts are cached by the browser.
 
 ---
 
@@ -139,8 +113,3 @@ Length caps are also enforced: passwords under 6, 8, or 10 characters have score
 
 All analysis runs 100% in the browser. Your password is **never sent to any server**, never logged, and never stored. The app has no analytics, no tracking, and no external requests except Google Fonts.
 
----
-
-##  License
-
-MIT — free to use, modify, and include in your portfolio.
