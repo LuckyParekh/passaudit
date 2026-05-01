@@ -94,6 +94,10 @@ The score is a composite of:
 Length caps are also enforced: passwords under 6, 8, or 10 characters have score ceilings regardless of character variety.
 
 ---
+## Live Demo
+-> https://luckyparekh.github.io/passaudit/
+
+---
 
 ##  Possible Future Improvements
 
