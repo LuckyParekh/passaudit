@@ -29,9 +29,9 @@ All analysis is done in the browser. No data is sent or stored.
 
 ## Project Structure
 passaudit/
-├── index.html
-├── style.css
-├── script.js
+  ├── index.html
+  ├── style.css
+  ├── script.js
 
 ## Notes
 
