@@ -2,7 +2,8 @@
 
 PassAudit is a client-side password strength analyzer built using HTML, CSS, and JavaScript. It evaluates passwords in real time and provides feedback based on common security rules and patterns.
 
-## Live Demo: https://LuckyParekh.github.io/passaudit/
+## Live Demo: 
+[PassAudit](https://passaudit.luckyparekh.com)
 
 ## Overview
 
